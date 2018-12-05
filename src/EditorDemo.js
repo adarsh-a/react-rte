@@ -100,6 +100,16 @@ export default class EditorDemo extends Component {
           </label>
           <label className="radio-item">
             <input
+              type="radio"
+              name="format"
+              value="raw"
+              checked={format === 'raw'}
+              onChange={this._onChangeFormat}
+            />
+            <span>Raw</span>
+          </label>
+          <label className="radio-item">
+            <input
               type="checkbox"
               onChange={this._onChangeReadOnly}
               checked={this.state.readOnly}
@@ -111,7 +121,7 @@ export default class EditorDemo extends Component {
           <textarea
             className="source"
             placeholder="Editor Source"
-            value={value.toString(format)}
+            value={value.toString(format, "inlineStyles")}
             onChange={this._onChangeSource}
           />
         </div>
@@ -119,6 +129,7 @@ export default class EditorDemo extends Component {
           <span className="label">Debugging:</span>
           <button className="btn" onClick={this._logState}>Log Content State</button>
           <button className="btn" onClick={this._logStateRaw}>Log Raw</button>
+          <button onClick={this.onClickLogToConsoleButton}>Log to Console</button>
         </div>
       </div>
     );
@@ -136,6 +147,11 @@ export default class EditorDemo extends Component {
     let rawContentState = window.rawContentState = convertToRaw(contentState);
     console.log(JSON.stringify(rawContentState));
   }
+
+  onClickLogToConsoleButton = () => {
+    console.log(this.state.value.toString("html"));
+  };
+
 
   _onChange(value: EditorValue) {
     this.setState({value});

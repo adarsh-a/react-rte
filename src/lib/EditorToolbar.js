@@ -8,6 +8,7 @@ import {ENTITY_TYPE} from 'draft-js-utils';
 import DefaultToolbarConfig from './EditorToolbarConfig';
 import StyleButton from './StyleButton';
 import PopoverIconButton from '../ui/PopoverIconButton';
+import PopoverIconButtonCustom from '../ui/PopoverIconButtonCustom'
 import ButtonGroup from '../ui/ButtonGroup';
 import Dropdown from '../ui/Dropdown';
 import IconButton from '../ui/IconButton';
@@ -200,7 +201,7 @@ export default class EditorToolbar extends Component {
 
     return (
       <ButtonGroup key={name}>
-        <PopoverIconButton
+        <PopoverIconButtonCustom
           label="Link"
           iconName="link"
           isDisabled={!shouldShowLinkButton}
@@ -328,7 +329,7 @@ export default class EditorToolbar extends Component {
     this._focusEditor();
   }
 
-  _setLink(url: string) {
+  _setLink(url: string,currentClass:string,currentTarget:string) {
     let {editorState} = this.props;
     let contentState = editorState.getCurrentContent();
     let selection = editorState.getSelection();
@@ -351,7 +352,11 @@ export default class EditorToolbar extends Component {
 
     this.setState({showLinkInput: false});
     if (canApplyLink) {
-      contentState = contentState.createEntity(ENTITY_TYPE.LINK, 'MUTABLE', {url});
+      contentState = contentState.createEntity(ENTITY_TYPE.LINK, 'MUTABLE', {url:url,currentClass:currentClass,currentTarget:currentTarget});
+      console.log("current class is",{currentClass});
+     // contentState = contentState.createEntity(ENTITY_TYPE.LINKCLASS, 'MUTABLE', {currentClass});
+     // contentState = contentState.createEntity(ENTITY_TYPE.LINKTARGET, 'MUTABLE', {currenTarget});
+
       let entityKey = contentState.getLastCreatedEntityKey();
 
       editorState = EditorState.push(editorState, contentState);
