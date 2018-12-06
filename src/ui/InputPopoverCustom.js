@@ -22,7 +22,8 @@ export default class InputPopoverCustom extends Component {
   constructor() {
     super(...arguments);
     autobind(this);
-    console.log("initial _inputRef:", this._inputRef);
+    // console.log("initial _inputRef:", this._inputRef);
+    // console.log("inputpopovercustom defaultValue", this.props.defaultValue);
     this._inputRef = {url:"a", class:"b", target:"c"};
   }
 
@@ -41,7 +42,6 @@ export default class InputPopoverCustom extends Component {
 
   render() {
     let {props} = this;
-    console.log("props.defaultValue", props.defaultValue)
     let className = cx(props.className, styles.root);
     return (
       <div className={className}>
@@ -56,7 +56,7 @@ export default class InputPopoverCustom extends Component {
           />
            <input
             ref={this._setInputRefClass}
-            defaultValue={props.defaultValue.class}
+            defaultValue={(props.defaultValue.title)?props.defaultValue.title:props.defaultValue.class}
             type="text"
             placeholder="class name"
             className={styles.input}
@@ -112,10 +112,10 @@ export default class InputPopoverCustom extends Component {
     let urlObj  = {
         url: this._inputRef.url ? this._inputRef.url.value : '', 
         class: this._inputRef.class ? this._inputRef.class.value : '', 
-        target: this._inputRef.target ? this._inputRef.target.value : ''
+        target: this._inputRef.target ? this._inputRef.target.value : '_blank'
       };
 
-    console.log("InputPopoverCustom urlObj on submit: ", urlObj)
+    // console.log("InputPopoverCustom urlObj on submit: ", urlObj)
     this.props.onSubmit(urlObj);
   }
 

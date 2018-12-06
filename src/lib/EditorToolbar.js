@@ -331,7 +331,7 @@ export default class EditorToolbar extends Component {
   }
 
   _setLink(urlObj: Object) {
-    console.log("_setLink EditorToolbar is",urlObj);
+    //console.log("_setLink EditorToolbar is",urlObj);
     let {editorState} = this.props;
     let contentState = editorState.getCurrentContent();
     let selection = editorState.getSelection();

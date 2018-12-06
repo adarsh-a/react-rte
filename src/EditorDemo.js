@@ -2,6 +2,7 @@
 import React, {Component} from 'react';
 import RichTextEditor, {createEmptyValue, createValueFromString} from './RichTextEditor';
 import {convertToRaw} from 'draft-js';
+import {stateToHTML} from 'draft-js-export-html';
 import autobind from 'class-autobind';
 
 import ButtonGroup from './ui/ButtonGroup';
@@ -24,7 +25,7 @@ export default class EditorDemo extends Component {
   constructor() {
     super(...arguments);
     autobind(this);
-    let dummytext = "<h1>test</h1><p>lorem ipsum para with <a href='http://www.pg.com' class='event_tacker' target='_blank'>link one</a> </p>";
+    let dummytext = '<h1>test</h1><p>lorem ipsum para with <a href="http://www.pg.com" class="aaa"  target="_blank" title="event ga_bbb">link one</a> hello <a href="asd" class="dddd" target="self" title="event ga_ddd">boy</a></p>';
     this.state = {
       value: createValueFromString(dummytext, "html"),
       format: 'html',
@@ -120,19 +121,20 @@ export default class EditorDemo extends Component {
             <span>Editor is read-only</span>
           </label>
         </div>
-        <div className="row">
+        
+        {/* <div className="row">
           <textarea
             className="source"
             placeholder="Editor Source"
             value={value.toString(format, "inlineStyles")}
             onChange={this._onChangeSource}
           />
-        </div>
+        </div> */}
         <div className="row btn-row">
           <span className="label">Debugging:</span>
           <button className="btn" onClick={this._logState}>Log Content State</button>
           <button className="btn" onClick={this._logStateRaw}>Log Raw</button>
-          <button onClick={this.onClickLogToConsoleButton}>Log to Console</button>
+          <button className="btn" onClick={this.onClickLogToConsoleButton}>Log to Console</button>
         </div>
       </div>
     );
@@ -153,16 +155,41 @@ export default class EditorDemo extends Component {
 
   onClickLogToConsoleButton = () => {
     //
-    var myDiv = document.getElementsByClassName("public-DraftStyleDefault-block");
-    var spans = myDiv.getElementsByTagName("span");   
+    // var myDiv = document.getElementsByClassName("public-DraftStyleDefault-block");
+    // var spans = myDiv[0].getElementsByTagName("span");   
 
-    for(var i=0; i<spans.length;i++){
-      var text = spans[i].innerHTML;
-      myDiv.innerHTML += text;
-      myDiv.removeChild(spans[i]);
-    }
+    // for(var i=0; i<spans.length;i++){
+    //   var text = spans[i].innerHTML;
+    //   myDiv.innerHTML += text;
+    //   myDiv.removeChild(spans[i]);
+    // }
 
-    console.log(myDiv.innerHTML);
+    // console.log(myDiv.innerHTML);
+
+    let options = {
+      entityStyleFn: (entity) => {
+        const entityType = entity.get('type').toLowerCase();
+        if (entityType === 'link') {
+          const data = entity.getData();
+          //console.log("retrans data:", data)
+          let gaClass = (data.title)?data.title:data.class;
+          return {
+            element: 'a',
+            attributes: {
+              href: data.url,
+              class: gaClass,
+              target: data.target
+            },
+          };
+        }
+      },
+    };
+
+    let editorState = this.state.value.getEditorState();
+    let contentState = editorState.getCurrentContent();
+
+    let html = stateToHTML(contentState, options);
+    console.log("HTML: ", html)
   };
 
 
