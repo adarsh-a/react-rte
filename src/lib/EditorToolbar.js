@@ -197,8 +197,6 @@ export default class EditorToolbar extends Component {
     let hasSelection = !selection.isCollapsed();
     let isCursorOnLink = (entity != null && entity.type === ENTITY_TYPE.LINK);
     let shouldShowLinkButton = hasSelection || isCursorOnLink;
-    //let defaultValue = (entity && isCursorOnLink) ? entity.getData().url : '';
-    //console.log("Editor Toolbar: ", (entity && isCursorOnLink) ? entity.getData() : '')
     let defaultValue = (entity && isCursorOnLink) ? entity.getData() : {};
 
 

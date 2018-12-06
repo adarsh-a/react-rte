@@ -1,6 +1,6 @@
 /* @flow */
 import React, {Component} from 'react';
-import RichTextEditor, {createEmptyValue} from './RichTextEditor';
+import RichTextEditor, {createEmptyValue, createValueFromString} from './RichTextEditor';
 import {convertToRaw} from 'draft-js';
 import autobind from 'class-autobind';
 
@@ -24,8 +24,9 @@ export default class EditorDemo extends Component {
   constructor() {
     super(...arguments);
     autobind(this);
+    let dummytext = "<h1>test</h1><p>lorem ipsum para with <a href='http://www.pg.com' class='event_tacker' target='_blank'>link one</a> </p>";
     this.state = {
-      value: createEmptyValue(),
+      value: createValueFromString(dummytext, "html"),
       format: 'html',
       readOnly: false,
     };
