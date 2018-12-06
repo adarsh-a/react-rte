@@ -9,14 +9,14 @@ import autobind from 'class-autobind';
 type Props = {
   iconName: string;
   showPopover: boolean,
-  defaultValue?: string,
+  defaultValue?: Object,
   onTogglePopover: Function,
   onSubmit: Function;
 };
 
 export default class PopoverIconButtonCustom extends Component {
   props: Props;
-
+  
   constructor() {
     super(...arguments);
     autobind(this);
@@ -45,7 +45,6 @@ export default class PopoverIconButtonCustom extends Component {
   }
 
   _onSubmit() {
-    console.log("submit",...arguments);
     this.props.onSubmit(...arguments);
   }
 

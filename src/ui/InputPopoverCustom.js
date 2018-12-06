@@ -10,29 +10,27 @@ import styles from './InputPopover.css';
 
 type Props = {
   className?: string;
-  defaultValue?: string;
-  defaultValue1?: string;
-  defaultValue2?: string;
+  defaultValue?: Object;
   onCancel: () => any;
-  onSubmit: (value: string,value2: string,value3 : string) => any;
+  onSubmit: (value: Object) => any;
 };
 
 export default class InputPopoverCustom extends Component {
   props: Props;
   _inputRef: ?Object;
-  _inputRef1:?Object;
-  _inputRef2:?Object;
 
   constructor() {
     super(...arguments);
     autobind(this);
+    console.log("initial _inputRef:", this._inputRef);
+    this._inputRef = {url:"a", class:"b", target:"c"};
   }
 
   componentDidMount() {
     document.addEventListener('click', this._onDocumentClick);
     document.addEventListener('keydown', this._onDocumentKeydown);
     if (this._inputRef) {
-      this._inputRef.focus();
+      //this._inputRef.url.focus();
     }
   }
 
@@ -43,29 +41,30 @@ export default class InputPopoverCustom extends Component {
 
   render() {
     let {props} = this;
+    console.log("props.defaultValue", props.defaultValue)
     let className = cx(props.className, styles.root);
     return (
       <div className={className}>
         <div className={styles.inner}>
           <input
-            ref={this._setInputRef}
-            defaultValue={props.defaultValue}
+            ref={this._setInputRefUrl}
+            defaultValue={props.defaultValue.url}
             type="text"
             placeholder="https://example.com/"
             className={styles.input}
             onKeyPress={this._onInputKeyPress}
           />
            <input
-            ref={this._setInputRef1}
-            defaultValue={props.defaultValue1}
+            ref={this._setInputRefClass}
+            defaultValue={props.defaultValue.class}
             type="text"
             placeholder="class name"
             className={styles.input}
             onKeyPress={this._onInputKeyPress}
           />
            <input
-            ref={this._setInputRef2}
-            defaultValue={props.defaultValue2}
+            ref={this._setInputRefTarget}
+            defaultValue={props.defaultValue.target}
             type="text"
             placeholder="target"
             className={styles.input}
@@ -88,16 +87,16 @@ export default class InputPopoverCustom extends Component {
     );
   }
 
-  _setInputRef(inputElement: Object) {
-    this._inputRef = inputElement;    
+  _setInputRefUrl(inputElement: Object) {
+    this._inputRef.url = inputElement 
   }
 
-  _setInputRef1(inputElement: Object) {    
-    this._inputRef1 = inputElement;
+  _setInputRefClass(inputElement: Object) {
+    this._inputRef.class = inputElement;
   }
 
-  _setInputRef2(inputElement: Object) {    
-    this._inputRef2 = inputElement;
+  _setInputRefTarget(inputElement: Object) {
+    this._inputRef.target = inputElement;    
   }
 
   _onInputKeyPress(event: Object) {
@@ -109,13 +108,15 @@ export default class InputPopoverCustom extends Component {
   }
 
   _onSubmit() {
-    let value = this._inputRef ? this._inputRef.value : '';
-    console.log("log adarsh",value);
-    let value2 = this._inputRef1 ? this._inputRef1.value : '';
-    console.log("log adarsh",value2);
-    let value3 = this._inputRef2 ? this._inputRef2.value : '';
-    console.log("log adarsh",value3);
-    this.props.onSubmit(value,value2,value3);
+
+    let urlObj  = {
+        url: this._inputRef.url ? this._inputRef.url.value : '', 
+        class: this._inputRef.class ? this._inputRef.class.value : '', 
+        target: this._inputRef.target ? this._inputRef.target.value : ''
+      };
+
+    console.log("InputPopoverCustom urlObj on submit: ", urlObj)
+    this.props.onSubmit(urlObj);
   }
 
   _onDocumentClick(event: Object) {

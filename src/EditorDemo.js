@@ -34,6 +34,8 @@ export default class EditorDemo extends Component {
   render() {
     let {value, format} = this.state;
 
+    //this.setState({value : "an empty text" });
+
     return (
       <div className="editor-demo">
         <div className="row">
@@ -149,7 +151,17 @@ export default class EditorDemo extends Component {
   }
 
   onClickLogToConsoleButton = () => {
-    console.log(this.state.value.toString("html"));
+    //
+    var myDiv = document.getElementsByClassName("public-DraftStyleDefault-block");
+    var spans = myDiv.getElementsByTagName("span");   
+
+    for(var i=0; i<spans.length;i++){
+      var text = spans[i].innerHTML;
+      myDiv.innerHTML += text;
+      myDiv.removeChild(spans[i]);
+    }
+
+    console.log(myDiv.innerHTML);
   };
 
 

@@ -13,11 +13,9 @@ type Props = {
 type EntityRangeCallback = (start: number, end: number) => void;
 
 function Link(props: Props) {
-  //console.log(props);
-  const {url,currentClass,currentTarget} = props.contentState.getEntity(props.entityKey).getData();
-  //console.log({url},{currentClass},{currentTarget});
+  const urlObj = props.contentState.getEntity(props.entityKey).getData();
   return (
-    <a href={url} className={currentClass} target={currentTarget}>{props.children}</a>
+    <a href={urlObj.url} className={urlObj.class} target={urlObj.target} id="aaaas" data-classe={urlObj.class}>{props.children}</a>
   );
 }
 

@@ -197,7 +197,10 @@ export default class EditorToolbar extends Component {
     let hasSelection = !selection.isCollapsed();
     let isCursorOnLink = (entity != null && entity.type === ENTITY_TYPE.LINK);
     let shouldShowLinkButton = hasSelection || isCursorOnLink;
-    let defaultValue = (entity && isCursorOnLink) ? entity.getData().url : '';
+    //let defaultValue = (entity && isCursorOnLink) ? entity.getData().url : '';
+    //console.log("Editor Toolbar: ", (entity && isCursorOnLink) ? entity.getData() : '')
+    let defaultValue = (entity && isCursorOnLink) ? entity.getData() : {};
+
 
     return (
       <ButtonGroup key={name}>
@@ -329,7 +332,8 @@ export default class EditorToolbar extends Component {
     this._focusEditor();
   }
 
-  _setLink(url: string,currentClass:string,currentTarget:string) {
+  _setLink(urlObj: Object) {
+    console.log("_setLink EditorToolbar is",urlObj);
     let {editorState} = this.props;
     let contentState = editorState.getCurrentContent();
     let selection = editorState.getSelection();
@@ -352,13 +356,8 @@ export default class EditorToolbar extends Component {
 
     this.setState({showLinkInput: false});
     if (canApplyLink) {
-      contentState = contentState.createEntity(ENTITY_TYPE.LINK, 'MUTABLE', {url:url,currentClass:currentClass,currentTarget:currentTarget});
-      console.log("current class is",{currentClass});
-     // contentState = contentState.createEntity(ENTITY_TYPE.LINKCLASS, 'MUTABLE', {currentClass});
-     // contentState = contentState.createEntity(ENTITY_TYPE.LINKTARGET, 'MUTABLE', {currenTarget});
-
+      contentState = contentState.createEntity(ENTITY_TYPE.LINK, 'MUTABLE', urlObj);
       let entityKey = contentState.getLastCreatedEntityKey();
-
       editorState = EditorState.push(editorState, contentState);
       editorState = RichUtils.toggleLink(editorState, selection, entityKey);
       editorState = EditorState.acceptSelection(editorState, origSelection);
