@@ -45,7 +45,7 @@ export default class InputPopoverCustom extends Component {
     let className = cx(props.className, styles.root);
     return (
       <div className={className}>
-        <div className={styles.inner}>
+        <div className={styles.innerVertical}>
           <input
             ref={this._setInputRefUrl}
             defaultValue={props.defaultValue.url}
@@ -96,7 +96,7 @@ export default class InputPopoverCustom extends Component {
   }
 
   _setInputRefTarget(inputElement: Object) {
-    this._inputRef.target = inputElement;    
+    this._inputRef.target = inputElement;
   }
 
   _onInputKeyPress(event: Object) {
