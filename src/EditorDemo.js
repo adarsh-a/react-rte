@@ -52,36 +52,36 @@ export default class EditorDemo extends Component {
             toolbarClassName="demo-toolbar"
             editorClassName="demo-editor"
             readOnly={this.state.readOnly}
-            customControls={[
-              // eslint-disable-next-line no-unused-vars
-              (setValue, getValue, editorState) => {
-                let choices = new Map([
-                  ['1', {label: '1'}],
-                  ['2', {label: '2'}],
-                  ['3', {label: '3'}],
-                ]);
-                return (
-                  <ButtonGroup key={1}>
-                    <Dropdown
-                      choices={choices}
-                      selectedKey={getValue('my-control-name')}
-                      onChange={(value) => setValue('my-control-name', value)}
-                    />
-                  </ButtonGroup>
-                );
-              },
-              <ButtonGroup key={2}>
-                <IconButton
-                  label="Remove Link"
-                  iconName="remove-link"
-                  focusOnClick={false}
-                  onClick={() => console.log('You pressed a button')}
-                />
-              </ButtonGroup>,
-            ]}
+            // customControls={[
+            //   // eslint-disable-next-line no-unused-vars
+            //   (setValue, getValue, editorState) => {
+            //     let choices = new Map([
+            //       ['1', {label: '1'}],
+            //       ['2', {label: '2'}],
+            //       ['3', {label: '3'}],
+            //     ]);
+            //     return (
+            //       <ButtonGroup key={1}>
+            //         <Dropdown
+            //           choices={choices}
+            //           selectedKey={getValue('my-control-name')}
+            //           onChange={(value) => setValue('my-control-name', value)}
+            //         />
+            //       </ButtonGroup>
+            //     );
+            //   },
+            //   <ButtonGroup key={2}>
+            //     <IconButton
+            //       label="Remove Link"
+            //       iconName="remove-link"
+            //       focusOnClick={false}
+            //       onClick={() => console.log('You pressed a button')}
+            //     />
+            //   </ButtonGroup>,
+            // ]}
           />
         </div>
-        <div className="row">
+        {/* <div className="row">
           <label className="radio-item">
             <input
               type="radio"
@@ -120,7 +120,7 @@ export default class EditorDemo extends Component {
             />
             <span>Editor is read-only</span>
           </label>
-        </div>
+        </div> */}
         
         {/* <div className="row">
           <textarea
@@ -132,26 +132,26 @@ export default class EditorDemo extends Component {
         </div> */}
         <div className="row btn-row">
           <span className="label">Debugging:</span>
-          <button className="btn" onClick={this._logState}>Log Content State</button>
-          <button className="btn" onClick={this._logStateRaw}>Log Raw</button>
+          {/* <button className="btn" onClick={this._logState}>Log Content State</button>
+          <button className="btn" onClick={this._logStateRaw}>Log Raw</button> */}
           <button className="btn" onClick={this.onClickLogToConsoleButton}>Log to Console</button>
         </div>
       </div>
     );
   }
 
-  _logState() {
-    let editorState = this.state.value.getEditorState();
-    let contentState = window.contentState = editorState.getCurrentContent().toJS();
-    console.log(contentState);
-  }
+  // _logState() {
+  //   let editorState = this.state.value.getEditorState();
+  //   let contentState = window.contentState = editorState.getCurrentContent().toJS();
+  //   console.log(contentState);
+  // }
 
-  _logStateRaw() {
-    let editorState = this.state.value.getEditorState();
-    let contentState = editorState.getCurrentContent();
-    let rawContentState = window.rawContentState = convertToRaw(contentState);
-    console.log(JSON.stringify(rawContentState));
-  }
+  // _logStateRaw() {
+  //   let editorState = this.state.value.getEditorState();
+  //   let contentState = editorState.getCurrentContent();
+  //   let rawContentState = window.rawContentState = convertToRaw(contentState);
+  //   console.log(JSON.stringify(rawContentState));
+  // }
 
   onClickLogToConsoleButton = () => {
     //
@@ -197,19 +197,19 @@ export default class EditorDemo extends Component {
     this.setState({value});
   }
 
-  _onChangeSource(event: Object) {
-    let source = event.target.value;
-    let oldValue = this.state.value;
-    this.setState({
-      value: oldValue.setContentFromString(source, this.state.format),
-    });
-  }
+  // _onChangeSource(event: Object) {
+  //   let source = event.target.value;
+  //   let oldValue = this.state.value;
+  //   this.setState({
+  //     value: oldValue.setContentFromString(source, this.state.format),
+  //   });
+  // }
 
-  _onChangeFormat(event: Object) {
-    this.setState({format: event.target.value});
-  }
+  // _onChangeFormat(event: Object) {
+  //   this.setState({format: event.target.value});
+  // }
 
-  _onChangeReadOnly(event: Object) {
-    this.setState({readOnly: event.target.checked});
-  }
+  // _onChangeReadOnly(event: Object) {
+  //   this.setState({readOnly: event.target.checked});
+  // }
 }
